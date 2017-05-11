@@ -3,22 +3,59 @@
                        xmlns:s="library://ns.adobe.com/flex/spark"
                        invoke="onInvoke(event)"
                        creationComplete="onCreationComplete()"
+                       showStatusBar="false"
 >
     <fx:Script><![CDATA[
-        import mx.controls.Alert;
+        import mx.events.FileEvent;
+
+        var file:File;
 
         public function onCreationComplete():void {
-
+           // image.source = "/Users/gabor.csomak/Desktop/IMG_9239.jpeg";
         }
 
         public function onInvoke(invokeEvent:InvokeEvent):void {
             if ((invokeEvent.currentDirectory != null) && (invokeEvent.arguments.length > 0)){
                 params.text = invokeEvent.currentDirectory + " " + invokeEvent.arguments[0];
-                //fileToOpen = dir.resolvePath(invokeEvent.arguments[0]);
+                file = new File();
+                file.nativePath= invokeEvent.arguments[0];
+                trace("EXISTS???", file.exists);
+                var dir = file.parent.getDirectoryListing();
+                if (file.exists) {
+                    file.addEventListener(Event.COMPLETE, loadCompleteHandler);
+                    file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+                    file.load();
+                }
             }
+        }
+
+        private function onIoError(event:IOErrorEvent):void {
+            trace('IOERROR');
+        }
+
+        private function loadCompleteHandler(event:Event):void
+        {
+            var loader:Loader = new Loader();
+            loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadBytesHandler);
+            loader.loadBytes(file.data);
+        }
+
+        private function loadBytesHandler(event:Event):void {
+            var loaderInfo:LoaderInfo = (event.target as LoaderInfo);
+            loaderInfo.removeEventListener(Event.COMPLETE, loadBytesHandler);
+
+            image.source = Bitmap(loaderInfo.content);
         }
 
 
         ]]></fx:Script>
-    <s:Label id="params" text="..." />
+    <s:Label id="params"
+             text="..." />
+    <s:BitmapImage
+
+            id="image"
+             top="20"
+             left="0"
+             right="0"
+             bottom="0" />
 </s:WindowedApplication>
