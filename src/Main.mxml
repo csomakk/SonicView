@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       invoke="onInvoke(event)"
+                       creationComplete="onCreationComplete()"
+>
+    <fx:Script><![CDATA[
+        import mx.controls.Alert;
+
+        public function onCreationComplete():void {
+
+        }
+
+        public function onInvoke(invokeEvent:InvokeEvent):void {
+            if ((invokeEvent.currentDirectory != null) && (invokeEvent.arguments.length > 0)){
+                params.text = invokeEvent.currentDirectory + " " + invokeEvent.arguments[0];
+                //fileToOpen = dir.resolvePath(invokeEvent.arguments[0]);
+            }
+        }
+
+
+        ]]></fx:Script>
+    <s:Label id="params" text="..." />
+</s:WindowedApplication>
