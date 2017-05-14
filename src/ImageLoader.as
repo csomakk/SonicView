@@ -20,10 +20,13 @@ public class ImageLoader {
 	[Bindable]
 	public var lastLoadedImagePath:String;
 
+	private const supportedExtensions:Array = ["jpg", "jpeg", "png"];
+
 	public function ImageLoader() {
 	}
 
 	public function loadImage(nativePath:String):void {
+		file.
 		file = new File();
 		file.nativePath = nativePath;
 		if (file.parent != currentDirectory) {
@@ -43,7 +46,7 @@ public class ImageLoader {
 		for (var i:int = 0; i < currentDirectoryContent.length; i++) {
 			var currentDirectoryFile:File = currentDirectoryContent[i];
 			if (file.nativePath == currentDirectoryFile.nativePath) {
-				currentFileNumberOfDirectory = i + 1;
+				currentFileNumberOfDirectory = i;
 				return;
 			}
 		}
@@ -64,5 +67,29 @@ public class ImageLoader {
 		loaderInfo.removeEventListener(Event.COMPLETE, loadBytesHandler);
 		lastLoadedImageSource = Bitmap(loaderInfo.content);
 	}
+
+	public function loadNext():void {
+		loadDelta(1);
+	}
+
+	public function loadPrev():void {
+		loadDelta(-1);
+	}
+
+	private function loadDelta(delta:int):void {
+		var currentDelta:int = delta;
+		var notFound:Boolean = true;
+		var proposedCurrentId:int;
+		while (currentDelta < currentFileNumberOfDirectory && notFound) {
+			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContent.length + currentDirectoryContent.length) % currentDirectoryContent.length; //positive modulo
+			notFound = supportedExtensions.indexOf((currentDirectoryContent[proposedCurrentId] as File).extension) == -1;
+			if (notFound) {
+				currentDelta += delta;
+			}
+		}
+
+		loadImage(currentDirectoryContent[proposedCurrentId].nativePath);
+	}
+
 }
 }

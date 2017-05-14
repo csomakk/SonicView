@@ -30,6 +30,12 @@ public class HotkeyManager {
 					stage.nativeWindow.close();
 				}
 				break;
+			case Keyboard.RIGHT:
+				(FlexGlobals.topLevelApplication as Main).imageLoader.loadNext();
+				break;
+			case Keyboard.LEFT:
+				(FlexGlobals.topLevelApplication as Main).imageLoader.loadPrev();
+				break;
 		}
 	}
 }
