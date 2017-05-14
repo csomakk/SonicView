@@ -8,7 +8,12 @@ import flash.filesystem.File;
 
 public class ImageLoader {
 
-	var file:File;
+	private var file:File;
+	private var currentDirectory:File;
+	[Bindable]
+	public var currentDirectoryContent:Array;
+	[Bindable]
+	public var currentFileNumberOfDirectory:int;
 
 	[Bindable]
 	public var lastLoadedImageSource:Bitmap;
@@ -20,13 +25,27 @@ public class ImageLoader {
 
 	public function loadImage(nativePath:String):void {
 		file = new File();
-		file.nativePath= nativePath;
-		var dir = file.parent.getDirectoryListing();
+		file.nativePath = nativePath;
+		if (file.parent != currentDirectory) {
+			currentDirectory = file.parent;
+			currentDirectoryContent = currentDirectory.getDirectoryListing();
+		}
 		if (file.exists) {
 			file.addEventListener(Event.COMPLETE, loadCompleteHandler);
 			file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
 			file.load();
 			lastLoadedImagePath = nativePath;
+			updateCurrentFileNumberOfDirectory();
+		}
+	}
+
+	private function updateCurrentFileNumberOfDirectory():void {
+		for (var i:int = 0; i < currentDirectoryContent.length; i++) {
+			var currentDirectoryFile:File = currentDirectoryContent[i];
+			if (file.nativePath == currentDirectoryFile.nativePath) {
+				currentFileNumberOfDirectory = i + 1;
+				return;
+			}
 		}
 	}
 

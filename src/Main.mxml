@@ -40,7 +40,7 @@
             bottom="0"
     />
     <s:Label id="params"
-             text="{imageLoader.lastLoadedImagePath}"
+             text="{imageLoader.lastLoadedImagePath} [{imageLoader.currentFileNumberOfDirectory}/{imageLoader.currentDirectoryContent.length}]"
              color="green"
              bottom="0"
     />
