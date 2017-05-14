@@ -6,10 +6,16 @@ Plan is to make this faster and better than Mac QuickView. Problem with it is th
 
 follow this link: https://github.com/csomakk/SonicView/raw/master/installer/SonicViewer.dmg
 
-# features
+# Features
 * full screen: `ENTER` or double-click
 * change background: `B` -- useful for transparent images
 * hide info: `I`
+
+# Screenshots
+![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/boxing.png)
+![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent1.png)
+![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent2.png)
+![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent3.png)
 
 # Todo
 * cache next-prev
@@ -23,5 +29,5 @@ follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 * option for default association
 * donate option with counter for reminders
 
-# feature request / support
+# Feature request / support
 If you have ideas or questions, feel free to drop a line to csomakk@gmail.com   
