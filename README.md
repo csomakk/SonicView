@@ -16,6 +16,7 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 
 # Todo
 * rotate and save image
+* delete image
 * save last viewed folders to a list
 * zoom with touchpad / scroll
 * popup menu
