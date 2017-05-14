@@ -33,7 +33,7 @@ public class ImageLoader {
 		if (file.parent != currentDirectory) {
 			currentDirectory = file.parent;
 			currentDirectoryContent = currentDirectory.getDirectoryListing();
-			currentDirectoryContentLength = currentDirectory.length;
+			currentDirectoryContentLength = currentDirectoryContent.length;
 		}
 		if (file.exists) {
 			file.addEventListener(Event.COMPLETE, loadCompleteHandler);
