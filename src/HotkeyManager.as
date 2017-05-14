@@ -7,16 +7,29 @@ import mx.core.FlexGlobals;
 
 public class HotkeyManager {
 
+	private var stage:Stage;
+
 	public function HotkeyManager() {
 	}
 
 	public function listen(stage:Stage):void {
+		this.stage = stage;
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 	}
 
 	public function onKeyDown(event:KeyboardEvent):void {
-		if ([Keyboard.ENTER, Keyboard.NUMPAD_ENTER].indexOf(event.keyCode) != -1 ){
-			FlexGlobals.topLevelApplication.fullScreenManager.toggleFullScreen();
+		switch (event.keyCode) {
+			case Keyboard.ENTER:
+			case Keyboard.NUMPAD_ENTER:
+				FlexGlobals.topLevelApplication.fullScreenManager.toggleFullScreen();
+				break;
+			case Keyboard.ESCAPE:
+				if (FlexGlobals.topLevelApplication.fullScreenManager.isFullScreen()) {
+					FlexGlobals.topLevelApplication.fullScreenManager.toggleFullScreen()
+				} else {
+					stage.nativeWindow.close();
+				}
+				break;
 		}
 	}
 }
