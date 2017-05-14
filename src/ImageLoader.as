@@ -24,7 +24,7 @@ public class ImageLoader {
 	public var lastLoadedImageSource:Bitmap;
 
 	[Bindable]
-	public var lastLoadedImagePath:String;
+	public var lastLoadedImagePath:String = "";
 
 	private const supportedExtensions:Array = ["jpg", "jpeg", "png"];
 
