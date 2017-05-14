@@ -4,12 +4,9 @@ Plan is to make this faster and better than Mac QuickView. Problem with it is th
 
 # features
 * full screen (enter / double click)
-
+* change background: `B` -- useful for transparent images
 
 # Todo
-* folder img count [xx/yy]
-* next-prev step with arrow
-* transparent images
 * cache next-prev
 * rotate and save image
 * hide/show path to image

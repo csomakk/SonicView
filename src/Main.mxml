@@ -15,6 +15,8 @@
         public var fullScreenManager:FullScreenManager = new FullScreenManager();
         public var hotkeyManager:HotkeyManager = new HotkeyManager();
 
+        private const backgrounds:Array = [0x0, 0xffffff, 0xff0000, 0xff00, 0xff];
+
         public function onDoubleClick():void {
             fullScreenManager.toggleFullScreen();
         }
@@ -28,6 +30,11 @@
             if ((invokeEvent.currentDirectory != null) && (invokeEvent.arguments.length > 0)){
                 imageLoader.loadImage(invokeEvent.arguments[0]);
             }
+        }
+
+        public function toggleBackground():void {
+            var currentBackgroundId:int = backgrounds.indexOf(this.getStyle("backgroundColor"));
+            this.setStyle("backgroundColor", backgrounds[(currentBackgroundId + 1) % backgrounds.length]);
         }
 
         ]]></fx:Script>

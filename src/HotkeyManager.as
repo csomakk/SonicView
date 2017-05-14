@@ -36,6 +36,9 @@ public class HotkeyManager {
 			case Keyboard.LEFT:
 				(FlexGlobals.topLevelApplication as Main).imageLoader.loadPrev();
 				break;
+			case Keyboard.B:
+				(FlexGlobals.topLevelApplication as Main).toggleBackground();
+				break;
 		}
 	}
 }
