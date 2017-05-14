@@ -16,8 +16,7 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 
 # Todo
 * rotate and save image
-* hide/show path to image
-* retina support
+* save last viewed folders to a list
 * zoom with touchpad / scroll
 * popup menu
 * slideshow
