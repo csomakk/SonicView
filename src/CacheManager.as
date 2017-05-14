@@ -86,6 +86,9 @@ public class CacheManager {
 		}
 	}
 
+	public function deletedFile(nativePath:String):void {
+		cacheDictionary[nativePath] = null;
+	}
 
 }
 }

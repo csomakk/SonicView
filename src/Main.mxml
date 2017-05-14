@@ -16,6 +16,7 @@
         public var fullScreenManager:FullScreenManager = new FullScreenManager();
         public var hotkeyManager:HotkeyManager = new HotkeyManager();
         public var cacheManager:CacheManager = new CacheManager();
+        public var imageManipulator:ImageManipulator = new ImageManipulator();
 
         private const backgrounds:Array = [0x0, 0xffffff, 0xff0000, 0xff00, 0xff];
 
@@ -41,6 +42,12 @@
 
         public function toggleInfo():void {
             infoLabel.visible = !infoLabel.visible;
+        }
+
+        public function deleteCurrentFile():void {
+            imageManipulator.deleteFile(imageLoader.lastLoadedImagePath);
+            cacheManager.deletedFile(imageLoader.lastLoadedImagePath);
+            imageLoader.lastLoadedImageSource = null;
         }
 
         ]]></fx:Script>

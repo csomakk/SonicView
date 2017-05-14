@@ -42,6 +42,9 @@ public class HotkeyManager {
 			case Keyboard.I:
 				(FlexGlobals.topLevelApplication as Main).toggleInfo();
 				break;
+			case Keyboard.DELETE:
+			case Keyboard.BACKSPACE:
+				(FlexGlobals.topLevelApplication as Main).deleteCurrentFile();
 		}
 	}
 }

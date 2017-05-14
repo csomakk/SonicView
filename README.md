@@ -12,6 +12,7 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 * full screen: `ENTER` or double-click
 * change background: `B` -- useful for transparent images
 * hide info: `I`
+* delete image: `DEL` or `BACKSPACE`
 * cache next file for fast loading - makes it fast to show images from network drive
 
 # Todo
