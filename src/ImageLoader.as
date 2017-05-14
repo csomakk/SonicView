@@ -13,6 +13,8 @@ public class ImageLoader {
 	[Bindable]
 	public var currentDirectoryContent:Array;
 	[Bindable]
+	public var currentDirectoryContentLength:int;
+	[Bindable]
 	public var currentFileNumberOfDirectory:int;
 
 	[Bindable]
@@ -31,6 +33,7 @@ public class ImageLoader {
 		if (file.parent != currentDirectory) {
 			currentDirectory = file.parent;
 			currentDirectoryContent = currentDirectory.getDirectoryListing();
+			currentDirectoryContentLength = currentDirectory.length;
 		}
 		if (file.exists) {
 			file.addEventListener(Event.COMPLETE, loadCompleteHandler);
@@ -42,7 +45,7 @@ public class ImageLoader {
 	}
 
 	private function updateCurrentFileNumberOfDirectory():void {
-		for (var i:int = 0; i < currentDirectoryContent.length; i++) {
+		for (var i:int = 0; i < currentDirectoryContentLength; i++) {
 			var currentDirectoryFile:File = currentDirectoryContent[i];
 			if (file.nativePath == currentDirectoryFile.nativePath) {
 				currentFileNumberOfDirectory = i;
@@ -80,7 +83,7 @@ public class ImageLoader {
 		var notFound:Boolean = true;
 		var proposedCurrentId:int;
 		while (currentDelta < currentFileNumberOfDirectory && notFound) {
-			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContent.length + currentDirectoryContent.length) % currentDirectoryContent.length; //positive modulo
+			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContentLength + currentDirectoryContentLength) % currentDirectoryContent.length; //positive modulo
 			notFound = supportedExtensions.indexOf((currentDirectoryContent[proposedCurrentId] as File).extension) == -1;
 			if (notFound) {
 				currentDelta += delta;

@@ -9,7 +9,7 @@ public class FullScreenManager {
 	public function FullScreenManager() {
 	}
 
-	public function setStage(stage:Stage) {
+	public function setStage(stage:Stage):void {
 		this.stage = stage;
 	}
 
