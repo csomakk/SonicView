@@ -34,8 +34,7 @@ public class ImageLoader {
 		trace('IOERROR');
 	}
 
-	private function loadCompleteHandler(event:Event):void
-	{
+	private function loadCompleteHandler(event:Event):void {
 		var loader:Loader = new Loader();
 		loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadBytesHandler);
 		loader.loadBytes(file.data);
@@ -44,9 +43,7 @@ public class ImageLoader {
 	private function loadBytesHandler(event:Event):void {
 		var loaderInfo:LoaderInfo = (event.target as LoaderInfo);
 		loaderInfo.removeEventListener(Event.COMPLETE, loadBytesHandler);
-		trace('image ready');
 		lastLoadedImageSource = Bitmap(loaderInfo.content);
-
 	}
 }
 }
