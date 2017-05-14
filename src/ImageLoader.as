@@ -42,6 +42,7 @@ public class ImageLoader {
 			trace("got cached image ", nativePath);
 			lastLoadedImageSource = cached;
 			updateCurrentFileNumberOfDirectory(nativePath);
+			cacheDelta(1);
 		} else {
 			file = new File();
 			file.nativePath = nativePath;

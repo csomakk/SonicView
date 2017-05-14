@@ -17,6 +17,8 @@ public class CacheManager {
 
 	private var cacheNativePathInProgress:String;
 
+	private const CACHE_MAX_FILES:int = 10;
+
 	public function CacheManager() {
 	}
 
@@ -76,7 +78,7 @@ public class CacheManager {
 	}
 
 	private function garbageCollectCache():void {
-		if (cachedPaths.length > 10) {
+		if (cachedPaths.length > CACHE_MAX_FILES) {
 			var lastUsed:String = cachedPaths.reverse().pop();
 			cacheDictionary[lastUsed] = null;
 			trace('removed from cache: ', lastUsed);
