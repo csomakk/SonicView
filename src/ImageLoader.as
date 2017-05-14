@@ -26,7 +26,6 @@ public class ImageLoader {
 	}
 
 	public function loadImage(nativePath:String):void {
-		file.
 		file = new File();
 		file.nativePath = nativePath;
 		if (file.parent != currentDirectory) {
