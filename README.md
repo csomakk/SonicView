@@ -4,7 +4,7 @@ Plan is to make this faster and better than Mac QuickView. Problem with it is th
 
 # Download
 
-follow this link: https://github.com/csomakk/SonicView/raw/master/installer/SonicViewer.dmg
+Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/SonicViewer.dmg
 
 # Features
 * full screen: `ENTER` or double-click
@@ -15,7 +15,6 @@ follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 ![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/boxing.png)
 ![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent1.png)
 ![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent2.png)
-![ScreenShot](https://raw.github.com/csomakk/SonicView/master/screenshots/transparent3.png)
 
 # Todo
 * cache next-prev
