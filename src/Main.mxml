@@ -2,16 +2,18 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
                        xmlns:s="library://ns.adobe.com/flex/spark"
                        invoke="onInvoke(event)"
-                       creationComplete="onCreationComplete()"
                        showStatusBar="false"
+                       keyDown="onKeyDown(event)"
+                       doubleClickEnabled="true"
+                       doubleClick="onDoubleClick()"
 >
     <fx:Script><![CDATA[
-        import mx.events.FileEvent;
 
         var file:File;
 
-        public function onCreationComplete():void {
-           // image.source = "/Users/gabor.csomak/Desktop/IMG_9239.jpeg";
+        public function onDoubleClick():void {
+            trace('onDoubleClick');
+            toggleFullScreen();
         }
 
         public function onInvoke(invokeEvent:InvokeEvent):void {
@@ -19,13 +21,18 @@
                 params.text = invokeEvent.arguments[0];
                 file = new File();
                 file.nativePath= invokeEvent.arguments[0];
-                trace("EXISTS???", file.exists);
                 var dir = file.parent.getDirectoryListing();
                 if (file.exists) {
                     file.addEventListener(Event.COMPLETE, loadCompleteHandler);
                     file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
                     file.load();
                 }
+            }
+        }
+
+        private function onKeyDown(event:KeyboardEvent):void {
+            if ([Keyboard.ENTER, Keyboard.NUMPAD_ENTER].indexOf(event.keyCode) != -1 ){
+                toggleFullScreen();
             }
         }
 
@@ -47,15 +54,25 @@
             image.source = Bitmap(loaderInfo.content);
         }
 
+        private function toggleFullScreen():void {
+            if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
+                stage.displayState = StageDisplayState.NORMAL;
+            } else {
+                stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            }
+        }
+
 
         ]]></fx:Script>
     <s:Label id="params"
-             text="..." />
+             text="..."
+    />
     <s:Image
 
             id="image"
              top="20"
              left="0"
              right="0"
-             bottom="0" />
+             bottom="0"
+    />
 </s:WindowedApplication>
