@@ -2,6 +2,10 @@
 
 Plan is to make this faster and better than Mac QuickView. Problem with it is that by pressing left arrow, i always lose my progress instead going back.
 
+# Download
+
+follow this link: https://github.com/csomakk/SonicView/raw/master/installer/SonicViewer.dmg
+
 # features
 * full screen: `ENTER` or double-click
 * change background: `B` -- useful for transparent images
