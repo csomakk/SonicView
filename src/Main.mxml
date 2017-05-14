@@ -7,6 +7,7 @@
                        doubleClick="onDoubleClick()"
                        windowComplete="onWindowComplete()"
                        backgroundColor="black"
+                       title="SonicView - {imageLoader.lastLoadedImagePath} [{imageLoader.currentFileNumberOfDirectory + 1}/{imageLoader.currentDirectoryContentLength}]"
 >
     <fx:Script><![CDATA[
 
@@ -37,6 +38,10 @@
             this.setStyle("backgroundColor", backgrounds[(currentBackgroundId + 1) % backgrounds.length]);
         }
 
+        public function toggleInfo():void {
+            infoLabel.visible = !infoLabel.visible;
+        }
+
         ]]></fx:Script>
     <s:Image
             source="{imageLoader.lastLoadedImageSource}"
@@ -46,7 +51,7 @@
             right="0"
             bottom="0"
     />
-    <s:Label id="params"
+    <s:Label id="infoLabel"
              text="{imageLoader.lastLoadedImagePath} [{imageLoader.currentFileNumberOfDirectory + 1}/{imageLoader.currentDirectoryContentLength}]"
              color="green"
              bottom="0"
