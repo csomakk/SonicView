@@ -16,7 +16,7 @@
 
         public function onInvoke(invokeEvent:InvokeEvent):void {
             if ((invokeEvent.currentDirectory != null) && (invokeEvent.arguments.length > 0)){
-                params.text = invokeEvent.currentDirectory + " " + invokeEvent.arguments[0];
+                params.text = invokeEvent.arguments[0];
                 file = new File();
                 file.nativePath= invokeEvent.arguments[0];
                 trace("EXISTS???", file.exists);
@@ -51,7 +51,7 @@
         ]]></fx:Script>
     <s:Label id="params"
              text="..." />
-    <s:BitmapImage
+    <s:Image
 
             id="image"
              top="20"
