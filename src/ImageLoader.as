@@ -10,19 +10,25 @@ public class ImageLoader {
 
 	private var file:File;
 	private var currentDirectory:File;
+
 	[Bindable]
 	public var currentDirectoryContent:Array;
+
 	[Bindable]
 	public var currentDirectoryContentLength:int;
+
 	[Bindable]
 	public var currentFileNumberOfDirectory:int;
 
 	[Bindable]
 	public var lastLoadedImageSource:Bitmap;
+
 	[Bindable]
 	public var lastLoadedImagePath:String;
 
 	private const supportedExtensions:Array = ["jpg", "jpeg", "png"];
+
+	private var loaderInProgress:Loader;
 
 	public function ImageLoader() {
 	}
@@ -59,9 +65,18 @@ public class ImageLoader {
 	}
 
 	private function loadCompleteHandler(event:Event):void {
+		if (loaderInProgress) {
+			loaderInProgress.unloadAndStop(true);
+		}
 		var loader:Loader = new Loader();
 		loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadBytesHandler);
-		loader.loadBytes(file.data);
+		loader.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+		if (file.data != null) {
+			loader.loadBytes(file.data);
+		} else {
+			trace("bytes were null of file!");
+		}
+		loaderInProgress = loader;
 	}
 
 	private function loadBytesHandler(event:Event):void {
@@ -82,15 +97,22 @@ public class ImageLoader {
 		var currentDelta:int = delta;
 		var notFound:Boolean = true;
 		var proposedCurrentId:int;
-		while (currentDelta < currentFileNumberOfDirectory && notFound) {
+		var proposedFile:File;
+		while (Math.abs(currentDelta) < currentDirectoryContentLength && notFound) {
 			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContentLength + currentDirectoryContentLength) % currentDirectoryContent.length; //positive modulo
-			notFound = supportedExtensions.indexOf((currentDirectoryContent[proposedCurrentId] as File).extension) == -1;
+			proposedFile = currentDirectoryContent[proposedCurrentId];
+			trace(proposedFile.nativePath);
+			notFound = supportedExtensions.indexOf(proposedFile.extension) == -1 || proposedFile.isDirectory; // not found if unsupported or directory
 			if (notFound) {
 				currentDelta += delta;
 			}
 		}
 
-		loadImage(currentDirectoryContent[proposedCurrentId].nativePath);
+		if (!notFound) {
+			loadImage(proposedFile.nativePath);
+		} else {
+			trace('no openable files found');
+		}
 	}
 
 }
