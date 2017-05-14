@@ -44,7 +44,8 @@ public class HotkeyManager {
 				break;
 			case Keyboard.DELETE:
 			case Keyboard.BACKSPACE:
-				(FlexGlobals.topLevelApplication as Main).deleteCurrentFile();
+				(FlexGlobals.topLevelApplication as Main).deleteCurrentFile(!event.shiftKey);
+				break;
 		}
 	}
 }

@@ -123,7 +123,11 @@ public class ImageLoader {
 		while (Math.abs(currentDelta) < currentDirectoryContentLength && notFound) {
 			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContentLength + currentDirectoryContentLength) % currentDirectoryContent.length; //positive modulo
 			proposedFile = currentDirectoryContent[proposedCurrentId];
-			notFound = supportedExtensions.indexOf(proposedFile.extension) == -1 || proposedFile.isDirectory; // not found if unsupported or directory
+			var proposedExtension:String = proposedFile.extension;
+			if (proposedExtension) {
+				proposedExtension = proposedExtension.toLowerCase();
+			}
+			notFound = supportedExtensions.indexOf(proposedExtension) == -1 || proposedFile.isDirectory; // not found if unsupported or directory
 			if (notFound) {
 				currentDelta += delta;
 			}

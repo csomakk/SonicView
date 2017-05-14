@@ -44,8 +44,8 @@
             infoLabel.visible = !infoLabel.visible;
         }
 
-        public function deleteCurrentFile():void {
-            imageManipulator.deleteFile(imageLoader.lastLoadedImagePath);
+        public function deleteCurrentFile(useTrash:Boolean):void {
+            imageManipulator.deleteFile(imageLoader.lastLoadedImagePath, useTrash);
             cacheManager.deletedFile(imageLoader.lastLoadedImagePath);
             imageLoader.lastLoadedImageSource = null;
         }
