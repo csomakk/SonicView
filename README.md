@@ -10,9 +10,9 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 * full screen: `ENTER` or double-click
 * change background: `B` -- useful for transparent images
 * hide info: `I`
+* cache next file for fast loading
 
 # Todo
-* cache next-prev
 * rotate and save image
 * hide/show path to image
 * retina support

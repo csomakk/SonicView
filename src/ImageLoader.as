@@ -6,6 +6,8 @@ import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.filesystem.File;
 
+import mx.core.FlexGlobals;
+
 public class ImageLoader {
 
 	private var file:File;
@@ -34,26 +36,33 @@ public class ImageLoader {
 	}
 
 	public function loadImage(nativePath:String):void {
-		file = new File();
-		file.nativePath = nativePath;
-		if (file.parent != currentDirectory) {
-			currentDirectory = file.parent;
-			currentDirectoryContent = currentDirectory.getDirectoryListing();
-			currentDirectoryContentLength = currentDirectoryContent.length;
-		}
-		if (file.exists) {
-			file.addEventListener(Event.COMPLETE, loadCompleteHandler);
-			file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
-			file.load();
-			lastLoadedImagePath = nativePath;
-			updateCurrentFileNumberOfDirectory();
+		lastLoadedImagePath = nativePath;
+		var cached:Bitmap = (FlexGlobals.topLevelApplication as Main).cacheManager.getFromCache(nativePath);
+		if (cached) {
+			trace("got cached image ", nativePath);
+			lastLoadedImageSource = cached;
+			updateCurrentFileNumberOfDirectory(nativePath);
+		} else {
+			file = new File();
+			file.nativePath = nativePath;
+			if (file.parent != currentDirectory) {
+				currentDirectory = file.parent;
+				currentDirectoryContent = currentDirectory.getDirectoryListing();
+				currentDirectoryContentLength = currentDirectoryContent.length;
+			}
+			if (file.exists) {
+				file.addEventListener(Event.COMPLETE, loadCompleteHandler);
+				file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+				file.load();
+				updateCurrentFileNumberOfDirectory(file.nativePath);
+			}
 		}
 	}
 
-	private function updateCurrentFileNumberOfDirectory():void {
+	private function updateCurrentFileNumberOfDirectory(nativePath:String):void {
 		for (var i:int = 0; i < currentDirectoryContentLength; i++) {
 			var currentDirectoryFile:File = currentDirectoryContent[i];
-			if (file.nativePath == currentDirectoryFile.nativePath) {
+			if (nativePath == currentDirectoryFile.nativePath) {
 				currentFileNumberOfDirectory = i;
 				return;
 			}
@@ -61,7 +70,7 @@ public class ImageLoader {
 	}
 
 	private function onIoError(event:IOErrorEvent):void {
-		trace('IOERROR');
+		trace('ImageLoader.onIoError');
 	}
 
 	private function loadCompleteHandler(event:Event):void {
@@ -83,6 +92,18 @@ public class ImageLoader {
 		var loaderInfo:LoaderInfo = (event.target as LoaderInfo);
 		loaderInfo.removeEventListener(Event.COMPLETE, loadBytesHandler);
 		lastLoadedImageSource = Bitmap(loaderInfo.content);
+		(FlexGlobals.topLevelApplication as Main).cacheManager.saveToCache(file.nativePath, lastLoadedImageSource);
+		cacheDelta(1);
+	}
+
+	private function cacheDelta(delta:int):void {
+		var proposedPath:String = getDeltaFileNativePath(delta);
+
+		if (proposedPath) {
+			(FlexGlobals.topLevelApplication as Main).cacheManager.cache(proposedPath);
+		} else {
+			trace('ImageLoader.cacheDelta() no openable files found');
+		}
 	}
 
 	public function loadNext():void {
@@ -93,7 +114,7 @@ public class ImageLoader {
 		loadDelta(-1);
 	}
 
-	private function loadDelta(delta:int):void {
+	private function getDeltaFileNativePath(delta:int):String {
 		var currentDelta:int = delta;
 		var notFound:Boolean = true;
 		var proposedCurrentId:int;
@@ -101,17 +122,21 @@ public class ImageLoader {
 		while (Math.abs(currentDelta) < currentDirectoryContentLength && notFound) {
 			proposedCurrentId = ((currentFileNumberOfDirectory + currentDelta) % currentDirectoryContentLength + currentDirectoryContentLength) % currentDirectoryContent.length; //positive modulo
 			proposedFile = currentDirectoryContent[proposedCurrentId];
-			trace(proposedFile.nativePath);
 			notFound = supportedExtensions.indexOf(proposedFile.extension) == -1 || proposedFile.isDirectory; // not found if unsupported or directory
 			if (notFound) {
 				currentDelta += delta;
 			}
 		}
+		return proposedFile.nativePath;
+	}
 
-		if (!notFound) {
-			loadImage(proposedFile.nativePath);
+	private function loadDelta(delta:int):void {
+		var proposedPath:String = getDeltaFileNativePath(delta);
+
+		if (proposedPath) {
+			loadImage(proposedPath);
 		} else {
-			trace('no openable files found');
+			trace('ImageLoader.loadDelta no openable files found');
 		}
 	}
 
