@@ -3,7 +3,6 @@
                        xmlns:s="library://ns.adobe.com/flex/spark"
                        invoke="onInvoke(event)"
                        showStatusBar="false"
-                       keyDown="onKeyDown(event)"
                        doubleClickEnabled="true"
                        doubleClick="onDoubleClick()"
                        windowComplete="onWindowComplete()"
@@ -11,8 +10,10 @@
 >
     <fx:Script><![CDATA[
 
-        private var imageLoader:ImageLoader = new ImageLoader();
-        private var fullScreenManager:FullScreenManager = new FullScreenManager();
+        [Bindable]
+        public var imageLoader:ImageLoader = new ImageLoader();
+        public var fullScreenManager:FullScreenManager = new FullScreenManager();
+        public var hotkeyManager:HotkeyManager = new HotkeyManager();
 
         public function onDoubleClick():void {
             fullScreenManager.toggleFullScreen();
@@ -20,6 +21,7 @@
 
         public function onWindowComplete():void {
             fullScreenManager.setStage(stage);
+            hotkeyManager.listen(stage);
         }
 
         public function onInvoke(invokeEvent:InvokeEvent):void {
@@ -27,13 +29,6 @@
                 imageLoader.loadImage(invokeEvent.arguments[0]);
             }
         }
-
-        private function onKeyDown(event:KeyboardEvent):void {
-            if ([Keyboard.ENTER, Keyboard.NUMPAD_ENTER].indexOf(event.keyCode) != -1 ){
-                fullScreenManager.toggleFullScreen();
-            }
-        }
-
 
         ]]></fx:Script>
     <s:Image
