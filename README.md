@@ -7,9 +7,9 @@ Plan is to make this faster and better than Mac QuickView. Problem with it is th
 
 
 # Todo
-* full screen
-* transparent images
+* folder img count [xx/yy]
 * next-prev step with arrow
+* transparent images
 * cache next-prev
 * rotate and save image
 * hide/show path to image

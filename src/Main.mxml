@@ -6,27 +6,19 @@
                        keyDown="onKeyDown(event)"
                        doubleClickEnabled="true"
                        doubleClick="onDoubleClick()"
+                       backgroundColor="black"
 >
     <fx:Script><![CDATA[
 
-        var file:File;
+        var imageLoader:ImageLoader = new ImageLoader();
 
         public function onDoubleClick():void {
-            trace('onDoubleClick');
             toggleFullScreen();
         }
 
         public function onInvoke(invokeEvent:InvokeEvent):void {
             if ((invokeEvent.currentDirectory != null) && (invokeEvent.arguments.length > 0)){
-                params.text = invokeEvent.arguments[0];
-                file = new File();
-                file.nativePath= invokeEvent.arguments[0];
-                var dir = file.parent.getDirectoryListing();
-                if (file.exists) {
-                    file.addEventListener(Event.COMPLETE, loadCompleteHandler);
-                    file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
-                    file.load();
-                }
+                imageLoader.loadImage(invokeEvent.arguments[0]);
             }
         }
 
@@ -34,24 +26,6 @@
             if ([Keyboard.ENTER, Keyboard.NUMPAD_ENTER].indexOf(event.keyCode) != -1 ){
                 toggleFullScreen();
             }
-        }
-
-        private function onIoError(event:IOErrorEvent):void {
-            trace('IOERROR');
-        }
-
-        private function loadCompleteHandler(event:Event):void
-        {
-            var loader:Loader = new Loader();
-            loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadBytesHandler);
-            loader.loadBytes(file.data);
-        }
-
-        private function loadBytesHandler(event:Event):void {
-            var loaderInfo:LoaderInfo = (event.target as LoaderInfo);
-            loaderInfo.removeEventListener(Event.COMPLETE, loadBytesHandler);
-
-            image.source = Bitmap(loaderInfo.content);
         }
 
         private function toggleFullScreen():void {
@@ -64,15 +38,17 @@
 
 
         ]]></fx:Script>
-    <s:Label id="params"
-             text="..."
-    />
     <s:Image
-
+            source="{imageLoader.lastLoadedImageSource}"
             id="image"
-             top="20"
-             left="0"
-             right="0"
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+    />
+    <s:Label id="params"
+             text="{imageLoader.lastLoadedImagePath}"
+             color="green"
              bottom="0"
     />
 </s:WindowedApplication>
