@@ -25,6 +25,7 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 * icon
 * option for default association
 * donate option with counter for reminders  
+* marketing
 
 # Feature request / support
 If you have ideas or questions, feel free to drop a line to csomakk@gmail.com   
