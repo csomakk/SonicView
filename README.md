@@ -16,7 +16,8 @@ Follow this link: https://github.com/csomakk/SonicView/raw/master/installer/Soni
 * cache next file for fast loading - makes it fast to show images from network drive
 
 # Todo
-* rotate and save image
+* Help schreen wigh `H`
+* rotate and save image -- imagemagic
 * save last viewed folders to a list
 * zoom with touchpad / scroll
 * popup menu
